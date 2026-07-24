@@ -1,64 +1,88 @@
-name: Build and Deploy Students Model
+name: Build and Deploy MLOps Infrastructure
 
 on:
+  # Manual trigger with environment dropdown
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Choose environment to deploy to"
+        required: true
+        type: choice
+        options:
+          - dev
+          - prd
+
+  # Automatic trigger for dev environment on push to main
   push:
     branches:
       - main
 
+env:
+  # If manually triggered → use dropdown
+  # If push to main → default to dev
+  SELECTED_ENV: ${{ github.event.inputs.environment || 'dev' }}
+
+  # Account IDs provided via GitHub Secrets (one per environment)
+  ACCOUNT_ID_DEV: ${{ secrets.AWS_ACCOUNT_ID_DEV }}
+  ACCOUNT_ID_PRD: ${{ secrets.AWS_ACCOUNT_ID_PRD }}
+
+vars:
+  # Select the correct account ID based on environment
+  ACCOUNT_ID: ${{ inputs.environment == 'prd' && secrets.AWS_ACCOUNT_ID_PRD || secrets.AWS_ACCOUNT_ID_DEV }}
+
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
-    permissions:
-      id-token: write
-      contents: read
-
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
+      - name: Configure AWS credentials using OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::<YOUR_AWS_ACCOUNT_ID>:role/GitHubOIDCRole
+          role-to-assume: arn:aws:iam::${{ env.ACCOUNT_ID }}:role/terraform-${{ env.SELECTED_ENV }}
           aws-region: us-west-2
 
-      - name: Login to ECR
-        uses: aws-actions/amazon-ecr-login@v2
+      - name: Log in to Amazon ECR
+        run: |
+          aws ecr get-login-password --region us-west-2 | \
+          docker login --username AWS --password-stdin ${{ env.ACCOUNT_ID }}.dkr.ecr.us-west-2.amazonaws.com
 
       - name: Build Docker image
         run: |
-          docker build -t students-model ./ml
+          docker build -t students-model .
 
       - name: Tag Docker image
         run: |
-          docker tag students-model:latest <YOUR_AWS_ACCOUNT_ID>.dkr.ecr.us-west-2.amazonaws.com/kel-dev-ecr-students_model:latest
+          docker tag students-model:latest \
+            ${{ env.ACCOUNT_ID }}.dkr.ecr.us-west-2.amazonaws.com/students-model-${{ env.SELECTED_ENV }}:latest
 
-      - name: Push Docker image
+      - name: Push Docker image to ECR
         run: |
-          docker push <YOUR_AWS_ACCOUNT_ID>.dkr.ecr.us-west-2.amazonaws.com/kel-dev-ecr-students_model:latest
+          docker push ${{ env.ACCOUNT_ID }}.dkr.ecr.us-west-2.amazonaws.com/students-model-${{ env.SELECTED_ENV }}:latest
 
-      - name: Trigger Terraform Cloud
+      - name: Trigger Terraform Cloud Run
         run: |
           curl \
             --header "Authorization: Bearer ${{ secrets.TF_API_TOKEN }}" \
             --header "Content-Type: application/vnd.api+json" \
             --request POST \
-            --data '{
-              "data": {
-                "type": "runs",
-                "attributes": {
-                  "is-destroy": false,
-                  "message": "Triggered by GitHub Actions"
+            --data "{
+              \"data\": {
+                \"type\": \"runs\",
+                \"attributes\": {
+                  \"message\": \"Triggered from GitHub Actions for environment: ${{ env.SELECTED_ENV }}\",
+                  \"is-destroy\": false
                 },
-                "relationships": {
-                  "workspace": {
-                    "data": {
-                      "type": "workspaces",
-                      "id": "students-mlops"
+                \"relationships\": {
+                  \"workspace\": {
+                    \"data\": {
+                      \"type\": \"workspaces\",
+                      \"name\": \"grades-predictor-${{ env.SELECTED_ENV }}\"
                     }
                   }
                 }
               }
-            }' \
+            }" \
             https://app.terraform.io/api/v2/runs
