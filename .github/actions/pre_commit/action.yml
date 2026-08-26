@@ -11,11 +11,11 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Login AWS
-      uses: aws-actions/configure-aws-credentials@v6.2.3
-      with:
-        role-to-assume: arn:aws:iam::390844779991:role/kel-aws-dev-github-oidc-role
-        aws-region: us-west-2
+    #- name: Login AWS
+    #  uses: aws-actions/configure-aws-credentials@v6.2.3
+    #  with:
+    #    role-to-assume: arn:aws:iam::390844779991:role/kel-aws-dev-github-oidc-role
+    #    aws-region: us-west-2
 
     - name: Install Python
       uses: actions/setup-python@v5
@@ -32,6 +32,6 @@ runs:
 
     - name: Install pre-commit
       shell: bash
-      run: pre-commit run --all-files --show-diff-on-failure
+      run: pre-commit run --all-files
       env:
         GLUE_ENV: "false"
