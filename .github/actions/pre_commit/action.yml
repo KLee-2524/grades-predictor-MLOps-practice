@@ -32,6 +32,10 @@ runs:
 
     - name: Install pre-commit
       shell: bash
+      run: sudo apt install pre-commit -y
+
+    - name: Run pre-commit
+      shell: bash
       run: pre-commit run --all-files
       env:
         GLUE_ENV: "false"
