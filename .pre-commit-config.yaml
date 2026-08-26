@@ -1,0 +1,45 @@
+default_language_version:
+  python: python3.8
+repos:
+  #- repo: https://github.com/pycqa/isort
+  #  rev: 5.13.2
+  #  hooks:
+  #    - id: isort
+  #      args: ["--profile", "black", "--dont-order-by-type"]
+
+  # https://stackoverflow.com/questions/62502668/can-flake8-fix-my-python-whitespace-problems
+  - repo: https://github.com/psf/black
+    rev: 24.2.0
+    hooks:
+    - id: black
+      args: 
+        - -l 88
+
+  #- repo: https://github.com/hhatto/autopep8
+  #  rev: v2.0.4
+  #  hooks:
+  #    - id: autopep8
+  
+  - repo: https://github.com/gruntwork-io/pre-commit
+    rev: v0.1.23
+    hooks: 
+      -id: terraform-fmt
+
+  - repo: local
+    hooks:
+    - id: unit-tests
+      name: unit-tests
+      entry: bash -c 'make init-test && make pytest'
+      language: system
+      types: [python]
+      pass_filenames: false
+
+  - repo: local
+    hooks:
+    - id: coverage
+      name: code-coverage
+      enty: bash -c 'make coverage'
+      language: system
+      types: [python]
+      pass_filenames: false
+  
