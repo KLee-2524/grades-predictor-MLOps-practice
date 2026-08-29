@@ -1,8 +1,8 @@
 resource "aws_cloudwatch_event_rule" "monitoring_alerts" {
   name = "${var.resource_name_prefix}-ev-monitoring-alerts"
   event_pattern = jsonencode({
-    "source": ["aws.sagemaker"],
-    "detail-type": ["SageMaker Model Monitor Alert"]
+    "source" : ["aws.sagemaker"],
+    "detail-type" : ["SageMaker Model Monitor Alert"]
   })
 }
 

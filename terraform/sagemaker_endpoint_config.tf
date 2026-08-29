@@ -9,7 +9,7 @@ resource "aws_sagemaker_endpoint_configuration" "students_endpoint_config" {
   }
 
   data_capture_config {
-    enable_capture = true
+    enable_capture              = true
     initial_sampling_percentage = 100
 
     destination_s3_uri = "s3://${aws_s3_bucket.pipeline_logs.bucket}/endpoint-capture/"

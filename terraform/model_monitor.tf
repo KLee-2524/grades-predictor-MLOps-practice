@@ -5,7 +5,7 @@ resource "aws_sagemaker_monitoring_schedule" "data_quality" {
     monitoring_type = "DataQuality"
 
     data_quality_config {
-      baseline_statistics = "s3://${aws_s3_bucket.models.bucket}/baseline/statistics.json"
+      baseline_statistics  = "s3://${aws_s3_bucket.models.bucket}/baseline/statistics.json"
       baseline_constraints = "s3://${aws_s3_bucket.models.bucket}/baseline/constraints.json"
     }
 
@@ -27,8 +27,8 @@ resource "aws_sagemaker_monitoring_schedule" "data_quality" {
 
       monitoring_resources {
         cluster_config {
-          instance_count = 1
-          instance_type  = "ml.m5.large"
+          instance_count    = 1
+          instance_type     = "ml.m5.large"
           volume_size_in_gb = 20
         }
       }
