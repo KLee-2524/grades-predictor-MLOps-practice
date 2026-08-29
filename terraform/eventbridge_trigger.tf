@@ -18,7 +18,7 @@ resource "aws_cloudwatch_event_rule" "new_csv_trigger" {
 }
 
 resource "aws_cloudwatch_event_target" "pipeline_target" {
-  rule      = aws_cloudwatch_event_rule.new_csv_trigger.name
-  arn       = aws_sagemaker_pipeline.students_pipeline.arn
-  role_arn  = aws_iam_role.eventbridge_sagemaker.arn
+  rule     = aws_cloudwatch_event_rule.new_csv_trigger.name
+  arn      = aws_sagemaker_pipeline.students_pipeline.arn
+  role_arn = aws_iam_role.eventbridge_sagemaker.arn
 }

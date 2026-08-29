@@ -1,22 +1,22 @@
 terraform {
 
-backend "remote" {
-    hostname = "app.terraform.io"
+  backend "remote" {
+    hostname     = "app.terraform.io"
     organization = "kel-aws-org"
 
     workspaces {
-        name = "grades-predictor-MLOps-practice-#{tf-env}#"
+      name = "grades-predictor-MLOps-practice-#{tf-env}#"
     }
   }
 
-required_version = ">= 1.3"
+  required_version = ">= 1.3"
 
-required_providers {
+  required_providers {
     aws = {
-        source = "hashicorp/aws"
+      source = "hashicorp/aws"
     }
     awscc = {
-        version = "0.77.0"
+      version = "0.77.0"
     }
   }
 }
