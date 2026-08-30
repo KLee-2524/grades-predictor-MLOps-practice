@@ -21,14 +21,14 @@ download-test-data: init-test
 	@ aws s3 cp s3://your-s3-bucket/folder/ --recursive 
 
 pytest:
-    pytest -q
+	pytest -q
 
 test: download-test-data
 	python -m coverage run -m pytest
 
 coverage:
-    coverage run -m pytest
-    coverage report --fail-under=70
+	coverage run -m pytest
+	coverage report --fail-under=70
 
 clean: 
 	@ rm -rf tests/data
