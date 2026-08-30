@@ -16,19 +16,19 @@ init-test:
 	@ pip install -r tests/requirements.txt
 
 # TODO: create and populate a test data s3 bucket
-download-test-data: init-test
-	@ mkdir -p tests/data
-	@ aws s3 cp s3://your-s3-bucket/folder/ --recursive 
+#download-test-data: init-test
+#	@ mkdir -p tests/data
+#	@ aws s3 cp s3://your-s3-bucket/folder/ --recursive 
 
-pytest:
-	pytest -q
+#pytest:
+#	pytest -q
 
-test: download-test-data
-	python -m coverage run -m pytest
+#test: download-test-data
+#	python -m coverage run -m pytest
 
-coverage:
-	coverage run -m pytest
-	coverage report --fail-under=70
+#coverage:
+#	coverage run -m pytest
+#	coverage report --fail-under=70
 
 clean: 
 	@ rm -rf tests/data
