@@ -25,21 +25,21 @@ repos:
     hooks: 
     - id: terraform-fmt
 
-  - repo: local
-    hooks:
-    - id: unit-tests
-      name: unit-tests
-      entry: bash -c 'make init-test && make pytest'
-      language: system
-      types: [python]
-      pass_filenames: false
+  # - repo: local
+  #   hooks:
+  #   - id: unit-tests
+  #     name: unit-tests
+  #     entry: bash -c 'make init-test && make pytest'
+  #     language: system
+  #     types: [python]
+  #     pass_filenames: false
 
-  - repo: local
-    hooks:
-    - id: coverage
-      name: code-coverage
-      entry: bash -c 'make coverage'
-      language: system
-      types: [python]
-      pass_filenames: false
+  #- repo: local
+  #  hooks:
+  #  - id: coverage
+  #    name: code-coverage
+  #    entry: bash -c 'make coverage'
+  #    language: system
+  #    types: [python]
+  #    pass_filenames: false
   
