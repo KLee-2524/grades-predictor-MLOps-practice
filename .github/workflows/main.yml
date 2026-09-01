@@ -36,16 +36,16 @@ jobs:
                 environment: dev
                 tfc_token: $${{ secrets.TFC_TOKEN }}
 
-    prd:
-        runs-on: ubuntu-latest
-        needs: [pre_commit]
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v4
+    # prd:
+    #     runs-on: ubuntu-latest
+    #     needs: [pre_commit]
+    #     steps:
+    #         - name: Checkout code
+    #           uses: actions/checkout@v4
 
-            - name: Terraform apply
-              uses: ./.github/actions/run_terraform
-              with:
-                command: apply
-                environment: prd
-                tfc_token: $${{ secrets.TFC_TOKEN }}
+    #         - name: Terraform apply
+    #           uses: ./.github/actions/run_terraform
+    #           with:
+    #             command: apply
+    #             environment: prd
+    #             tfc_token: $${{ secrets.TFC_TOKEN }}

@@ -3,11 +3,13 @@ import joblib
 import numpy as np
 import pandas as pd
 
+
 def model_fn(model_dir):
     """Load model from /opt/ml/model"""
     model_path = os.path.join(model_dir, "model.joblib")
     model = joblib.load(model_path)
     return model
+
 
 def predict_fn(input_data, model):
     """

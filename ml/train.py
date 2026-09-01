@@ -5,6 +5,7 @@ from sklearn.metrics import root_mean_squared_error, mean_absolute_error, r2_sco
 import joblib
 import json
 
+
 def main():
     input_dir = "/opt/ml/input/data/training"
     output_dir = "/opt/ml/model"
@@ -30,7 +31,7 @@ def main():
     metrics = {
         "rmse": root_mean_squared_error(y, preds),
         "mae": mean_absolute_error(y, preds),
-        "r2": r2_score(y, preds)
+        "r2": r2_score(y, preds),
     }
 
     os.makedirs(output_dir, exist_ok=True)
@@ -41,6 +42,7 @@ def main():
     # Save metrics
     with open(os.path.join(output_dir, "metrics.json"), "w") as f:
         json.dump(metrics, f)
+
 
 if __name__ == "__main__":
     main()
