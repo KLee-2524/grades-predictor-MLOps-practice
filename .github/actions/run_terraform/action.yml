@@ -10,7 +10,7 @@ inputs:
   tfc_token:
     description: Terraform token
     required: true
-  working_diectory: 
+  working_directory: 
     description: Directory to use for terrafom that contains your tf files
     required: false
     default: terraform
@@ -20,10 +20,10 @@ runs:
   steps:
     - name: Set workspace
       shell: bash
-      working-directory: ${{ inputs.working_diectory }}
+      working-directory: ${{ inputs.working_directory }}
       run: |
         sed -i 's/#{tf-env}#/${{ inputs.environment }}/g' terraform.tf
-        mv envs/${{ inputs.environment }}.tfvars ${{inputs/enironment }}.auto.tfvars
+        mv envs/${{ inputs.environment }}.tfvars ${{ inputs.environment }}.auto.tfvars
 
     - name: Setup terraform
       uses: hashicorp/setup-terraform@v3
@@ -34,15 +34,15 @@ runs:
     
     - name: Terraform init
       shell: bash
-      working-directory: ${{ inputs.working_diectory }}
+      working-directory: ${{ inputs.working_directory }}
       run: terraform init
 
     - name: Run terraform
       shell: bash
-      working-directory: ${{ inputs.working_diectory }}
+      working-directory: ${{ inputs.working_directory }}
       run: |
         if [[ ${{ inputs.command }} == "apply" ]]; then
           terraform apply -auto-approve
         else
-          terrafom ${{ inputs.commend }}
+          terrafom ${{ inputs.command }}
         fi
