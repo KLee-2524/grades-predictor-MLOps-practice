@@ -11,7 +11,7 @@ inputs:
     description: Terraform token
     required: true
   working_directory: 
-    description: Directory to use for terrafom that contains your tf files
+    description: Directory to use for terrafrom that contains your tf files
     required: false
     default: terraform
 
@@ -44,5 +44,5 @@ runs:
         if [[ ${{ inputs.command }} == "apply" ]]; then
           terraform apply -auto-approve
         else
-          terrafom ${{ inputs.command }}
+          terrafrom ${{ inputs.command }}
         fi
