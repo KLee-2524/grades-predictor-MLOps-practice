@@ -85,7 +85,7 @@ resource "aws_sagemaker_pipeline" "students_pipeline" {
 ########################################
 
 resource "aws_sagemaker_training_job" "students_training" {
-  name = "${var.resource_name_prefix}-sm-training-job"
+  training_job_name = "${var.resource_name_prefix}-sm-training-job"
 
   role_arn = aws_iam_role.sagemaker_execution.arn
 
