@@ -12,6 +12,7 @@ resource "aws_sagemaker_monitoring_schedule" "data_quality" {
     monitoring_job_definition {
       monitoring_inputs {
         endpoint_input {
+          local_path    = "/opt/ml/processing/input"
           endpoint_name = aws_sagemaker_endpoint.students_endpoint.name
         }
       }
