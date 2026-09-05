@@ -10,7 +10,7 @@ resource "aws_sagemaker_monitoring_schedule" "data_quality" {
     #}
 
     monitoring_job_definition {
-      monitoring_app_specifications {
+      monitoring_app_specification {
         image_uri = "${var.monitor_image_account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/sagemaker-model-monitor-analyzer"
       }
 
