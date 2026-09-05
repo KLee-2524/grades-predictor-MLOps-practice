@@ -2,16 +2,16 @@ locals {
   sm_pipeline_name = "${var.resource_name_prefix}-students-mlops-pipeline"
 
   sm_pipeline_definition = templatefile("${path.module}/resources/sagemaker/students_pipeline.tpl", {
-      pipeline_name          = local.sm_pipeline_name
-      instance_type          = var.instance_type
-      training_job_name      = "${var.resource_name_prefix}-training-job"
-      training_image_uri     = var.training_image_uri
-      raw_data_s3_uri        = var.raw_data_s3_uri
-      model_artifacts_s3_uri = var.model_artifacts_s3_uri
-      role_arn               = aws_iam_role.sagemaker_execution.arn
-      model_name             = "${var.resource_name_prefix}-model"
-      endpoint_config_name   = "${var.resource_name_prefix}-endpoint-config"
-      endpoint_name          = var.endpoint_name
+    pipeline_name          = local.sm_pipeline_name
+    instance_type          = var.instance_type
+    training_job_name      = "${var.resource_name_prefix}-training-job"
+    training_image_uri     = var.training_image_uri
+    raw_data_s3_uri        = var.raw_data_s3_uri
+    model_artifacts_s3_uri = var.model_artifacts_s3_uri
+    role_arn               = aws_iam_role.sagemaker_execution.arn
+    model_name             = "${var.resource_name_prefix}-model"
+    endpoint_config_name   = "${var.resource_name_prefix}-endpoint-config"
+    endpoint_name          = var.endpoint_name
     }
   )
 }
