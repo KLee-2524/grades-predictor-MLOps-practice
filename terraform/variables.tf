@@ -9,6 +9,12 @@ variable "aws_region" {
   default     = "us-west-2"
 }
 
+variable "monitor_image_account_id" {
+  description = "AWS SageMaker provided model monitoring image account number MUST be updated with aws_region"
+  type        = string
+  default     = "763104351884"
+}
+
 variable "resource_name_prefix" {
   description = "Prefix for all resources, e.g. kel-{env}"
   type        = string
