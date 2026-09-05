@@ -4,10 +4,10 @@ resource "aws_sagemaker_monitoring_schedule" "data_quality" {
   monitoring_schedule_config {
     monitoring_type = "DataQuality"
 
-    data_quality_config {
-      baseline_statistics  = "s3://${aws_s3_bucket.models.bucket}/baseline/statistics.json"
-      baseline_constraints = "s3://${aws_s3_bucket.models.bucket}/baseline/constraints.json"
-    }
+    #data_quality_config {
+    #  baseline_statistics  = "s3://${aws_s3_bucket.models.bucket}/baseline/statistics.json"
+    #  baseline_constraints = "s3://${aws_s3_bucket.models.bucket}/baseline/constraints.json"
+    #}
 
     monitoring_job_definition {
       monitoring_inputs {
