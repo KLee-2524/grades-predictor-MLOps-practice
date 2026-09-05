@@ -1,0 +1,41 @@
+name: Run pre commit checks
+
+inputs:
+  python_version:
+    description: Python version
+    required: true
+  tfc_token:
+    description: Terraform token
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    #- name: Login AWS
+    #  uses: aws-actions/configure-aws-credentials@v6.2.3
+    #  with:
+    #    role-to-assume: arn:aws:iam::390844779991:role/kel-aws-dev-github-oidc-role
+    #    aws-region: us-west-2
+
+    - name: Install Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python_version }}
+        cache: 'pip'
+
+    - name: Setup terraform
+      uses: hashicorp/setup-terraform@v3
+      with: 
+        terraform_version: 1.4.6
+        cli_config_credentials_hostname: 'app.terraform.io'
+        cli_config_credentials_token: ${{ inputs.tfc_token }}
+
+    - name: Install pre-commit
+      shell: bash
+      run: sudo apt install pre-commit -y
+
+    - name: Run pre-commit
+      shell: bash
+      run: pre-commit run --all-files
+      env:
+        GLUE_ENV: "false"
