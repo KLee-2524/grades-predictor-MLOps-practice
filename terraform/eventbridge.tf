@@ -39,5 +39,5 @@ resource "aws_cloudwatch_event_rule" "monitoring_alerts" {
 
 resource "aws_cloudwatch_event_target" "monitoring_target" {
   rule = aws_cloudwatch_event_rule.monitoring_alerts.name
-  arn  = aws_sns_topic.alerts.arn
+  arn  = aws_sns_topic.user_alerts.arn
 }
