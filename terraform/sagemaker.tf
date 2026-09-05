@@ -101,7 +101,7 @@ resource "aws_sagemaker_training_job" "students_training" {
   resource_config {
     instance_type  = var.training_instance_type
     instance_count = 1
-    volume_size_gb = 10
+    volume_size_in_gb = 10
   }
 
   stopping_condition {
