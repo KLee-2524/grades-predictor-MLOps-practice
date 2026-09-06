@@ -1,11 +1,13 @@
 locals {
   sm_pipeline_name = "${var.resource_name_prefix}-students-mlops-pipeline"
 
+  training_image_uri = "${aws_ecr_repository.students_model.repository_url}:${var.training_image_tag}"
+
   sm_pipeline_definition = templatefile("${path.module}/resources/sagemaker/training_pipeline.tpl", {
     pipeline_name          = local.sm_pipeline_name
     instance_type          = var.training_instance_type
     training_job_name      = "${var.resource_name_prefix}-training-job"
-    training_image_uri     = "${aws_ecr_repository.students_model.repository_url}:${var.training_image_tag}"
+    training_image_uri     = local.training_image_uri
     raw_data_s3_uri        = var.raw_data_s3_uri
     model_artifacts_s3_uri = var.model_artifacts_s3_uri
     role_arn               = aws_iam_role.sagemaker_execution.arn
