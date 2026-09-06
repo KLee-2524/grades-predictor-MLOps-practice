@@ -47,3 +47,33 @@ variable "s3_date_directories_prefix" {
   description = "Date prefix for S3 directories, e.g. 2026/09/05/"
   type        = string
 }
+
+variable "training_data_prefix" {
+  description = "location in s3 where training data is stored"
+  type        = string
+  default     = "training/"
+}
+
+variable "inference_inputs_prefix" {
+  description = "location in s3 where unlabeled inference input data"
+  type        = string
+  default     = "inputs/"
+}
+
+variable "predictions_prefix" {
+  description = "location in s3 where the model predictions are stored"
+  type        = string
+  default     = "outputs/"
+}
+
+variable "artifacts_prefix" {
+  description = "location in s3 where model artifacts are stored"
+  type        = string
+  default     = "artifacts/"
+}
+
+variable "endpoint_logs_prefix" {
+  description = "location in s3 where sagemaker training endpoint logs are stored"
+  type        = string
+  default     = "endpoint-logs/"
+}
