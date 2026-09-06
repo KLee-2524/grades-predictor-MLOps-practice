@@ -1,10 +1,10 @@
 locals {
   # Build full S3 URIs from bucket + prefix
-  training_data_s3_uri    = "s3://${var.data_bucket_name}/${var.training_data_prefix}"
-  inference_inputs_s3_uri = "s3://${var.data_bucket_name}/${var.inference_inputs_prefix}"
-  predictions_s3_uri      = "s3://${var.data_bucket_name}/${var.predictions_prefix}"
-  artifacts_s3_uri        = "s3://${var.data_bucket_name}/${var.artifacts_prefix}"
-  endpoint_logs_s3_uri    = "s3://${var.data_bucket_name}/${var.endpoint_logs_prefix}"
+  training_data_s3_uri    = "s3://${var.data_bucket_name}/${var.s3_date_directories_prefix}training/"
+  inference_inputs_s3_uri = "s3://${var.data_bucket_name}/${var.s3_date_directories_prefix}inputs/"
+  predictions_s3_uri      = "s3://${var.data_bucket_name}/${var.s3_date_directories_prefix}outputs/"
+  artifacts_s3_uri        = "s3://${var.data_bucket_name}/${var.s3_date_directories_prefix}artifacts/"
+  endpoint_logs_s3_uri    = "s3://${var.data_bucket_name}/${var.s3_date_directories_prefix}endpoint-logs/"
 
   sm_pipeline_name = "${var.resource_name_prefix}-students-mlops-pipeline"
 
