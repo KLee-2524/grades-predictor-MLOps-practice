@@ -1,10 +1,10 @@
 locals {
   # Build full S3 URIs from bucket + prefix
-  full_training_data_prefix    = "${var.s3_date_directories_prefix}${training_data_prefix}"
-  full_inference_inputs_prefix = "${var.s3_date_directories_prefix}${inference_inputs_prefix}"
-  full_predictions_prefix      = "${var.s3_date_directories_prefix}${predictions_prefix}"
-  full_artifacts_prefix        = "${var.s3_date_directories_prefix}${artifacts_prefix}"
-  full_endpoint_logs_prefix    = "${var.s3_date_directories_prefix}${endpoint_logs_prefix}"
+  full_training_data_prefix    = "${var.s3_date_directories_prefix}${var.training_data_prefix}"
+  full_inference_inputs_prefix = "${var.s3_date_directories_prefix}${var.inference_inputs_prefix}"
+  full_predictions_prefix      = "${var.s3_date_directories_prefix}${var.predictions_prefix}"
+  full_artifacts_prefix        = "${var.s3_date_directories_prefix}${var.artifacts_prefix}"
+  full_endpoint_logs_prefix    = "${var.s3_date_directories_prefix}${var.endpoint_logs_prefix}"
 }
 
 ################################
