@@ -1,11 +1,11 @@
 locals {
   sm_pipeline_name = "${var.resource_name_prefix}-students-mlops-pipeline"
 
-  sm_pipeline_definition = templatefile("${path.module}/resources/sagemaker/students_pipeline.tpl", {
+  sm_pipeline_definition = templatefile("${path.module}/resources/sagemaker/training_pipeline.tpl", {
     pipeline_name          = local.sm_pipeline_name
-    instance_type          = var.instance_type
+    instance_type          = var.training_instance_type
     training_job_name      = "${var.resource_name_prefix}-training-job"
-    training_image_uri     = var.training_image_uri
+    training_image_uri     = "${aws_ecr_repository.students_model.repository_url}:${var.training_image_tag}"
     raw_data_s3_uri        = var.raw_data_s3_uri
     model_artifacts_s3_uri = var.model_artifacts_s3_uri
     role_arn               = aws_iam_role.sagemaker_execution.arn
@@ -68,7 +68,7 @@ resource "aws_sagemaker_model" "students_model" {
   execution_role_arn = aws_iam_role.sagemaker_execution.arn
 
   primary_container {
-    image = aws_ecr_repository.students_model.repository_url
+    image = local.training_image_uri
 
     model_data_url = "s3://${aws_s3_bucket.models.bucket}/artifacts/model.joblib"
   }
@@ -108,7 +108,7 @@ resource "aws_sagemaker_training_job" "students_training" {
   role_arn = aws_iam_role.sagemaker_execution.arn
 
   algorithm_specification {
-    training_image      = aws_ecr_repository.students_model.repository_url
+    training_image      = local.training_image_uri
     training_input_mode = "File"
   }
 

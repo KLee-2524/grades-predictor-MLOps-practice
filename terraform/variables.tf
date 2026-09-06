@@ -20,6 +20,12 @@ variable "resource_name_prefix" {
   type        = string
 }
 
+variable "training_image_tag" {
+  description = "Tag for the training image"
+  type        = string
+  default     = "latest"
+}
+
 # Example ML-related variables (we'll refine as we go)
 variable "training_instance_type" {
   description = "Instance type for SageMaker training jobs"

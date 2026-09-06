@@ -16,6 +16,10 @@ resource "aws_ecr_repository" "students_model" {
   }
 }
 
+output "ecr_repo_training_image_uri" {
+  value = aws_ecr_repository.students_model.repository_url
+}
+
 ########################################
 # ECR Lifecycle Policy
 ########################################
