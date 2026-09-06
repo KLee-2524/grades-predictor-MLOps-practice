@@ -1,4 +1,11 @@
 locals {
+  # Build full S3 URIs from bucket + prefix
+  training_data_s3_uri    = "s3://${var.data_bucket_name}/${var.training_data_prefix}"
+  inference_inputs_s3_uri = "s3://${var.data_bucket_name}/${var.inference_inputs_prefix}"
+  predictions_s3_uri      = "s3://${var.data_bucket_name}/${var.predictions_prefix}"
+  artifacts_s3_uri        = "s3://${var.data_bucket_name}/${var.artifacts_prefix}"
+  endpoint_logs_s3_uri    = "s3://${var.data_bucket_name}/${var.endpoint_logs_prefix}"
+
   sm_pipeline_name = "${var.resource_name_prefix}-students-mlops-pipeline"
 
   training_image_uri = "${aws_ecr_repository.students_model.repository_url}:${var.training_image_tag}"
@@ -8,8 +15,8 @@ locals {
     instance_type          = var.training_instance_type
     training_job_name      = "${var.resource_name_prefix}-training-job"
     training_image_uri     = local.training_image_uri
-    raw_data_s3_uri        = var.raw_data_s3_uri
-    model_artifacts_s3_uri = var.model_artifacts_s3_uri
+    training_data_s3_uri   = local.training_data_s3_uri
+    artifacts_s3_uri       = local.artifacts_s3_uri
     role_arn               = aws_iam_role.sagemaker_execution.arn
     model_name             = "${var.resource_name_prefix}-model"
     endpoint_config_name   = "${var.resource_name_prefix}-endpoint-config"
@@ -52,7 +59,7 @@ resource "aws_sagemaker_endpoint_configuration" "students_endpoint_config" {
       capture_mode = "Output"
     }
 
-    destination_s3_uri = "s3://${aws_s3_bucket.pipeline_logs.bucket}/endpoint-capture/"
+    destination_s3_uri = local.endpoint_logs_s3_uri
   }
 
   tags = {
@@ -72,7 +79,7 @@ resource "aws_sagemaker_model" "students_model" {
   primary_container {
     image = local.training_image_uri
 
-    model_data_url = "s3://${aws_s3_bucket.models.bucket}/artifacts/model.joblib"
+    model_data_url = "${local.artifacts_s3_uri}model.joblib"
   }
 
   tags = {
@@ -115,7 +122,7 @@ resource "aws_sagemaker_training_job" "students_training" {
   }
 
   output_data_config {
-    s3_output_path = "s3://${aws_s3_bucket.models.bucket}/artifacts/"
+    s3_output_path = local.artifacts_s3_uri
   }
 
   resource_config {
@@ -134,7 +141,7 @@ resource "aws_sagemaker_training_job" "students_training" {
     data_source {
       s3_data_source {
         s3_data_type              = "S3Prefix"
-        s3_uri                    = "s3://${aws_s3_bucket.raw_data.bucket}/"
+        s3_uri                    = local.training_data_s3_uri
         s3_data_distribution_type = "FullyReplicated"
       }
     }

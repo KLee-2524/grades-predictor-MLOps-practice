@@ -36,3 +36,39 @@ variable "endpoint_instance_type" {
   description = "Instance type for SageMaker endpoint"
   type        = string
 }
+
+# NEW BUDGET AI DLC VARIABLES
+variable "data_bucket_name" {
+  description = "S3 bucket for inputs, outputs, training data, and artifacts"
+  type        = string
+}
+
+variable "s3_date_directories_prefix" {
+  description = "Date prefix for S3 directories, e.g. 2026/09/05/"
+  type        = string
+}
+
+variable "training_data_prefix" {
+  type    = string
+  default = "${var.s3_date_directories_prefix}training/"
+}
+
+variable "inference_inputs_prefix" {
+  type    = string
+  default = "${var.s3_date_directories_prefix}inputs/"
+}
+
+variable "predictions_prefix" {
+  type    = string
+  default = "${var.s3_date_directories_prefix}outputs/"
+}
+
+variable "artifacts_prefix" {
+  type    = string
+  default = "${var.s3_date_directories_prefix}artifacts/"
+}
+
+variable "endpoint_logs_prefix" {
+  type    = string
+  default = "${var.s3_date_directories_prefix}endpoint-logs/"
+}

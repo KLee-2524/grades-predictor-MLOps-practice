@@ -4,19 +4,34 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import root_mean_squared_error, mean_absolute_error, r2_score
 import joblib
 import json
+import boto3
 
+
+def get_latest_file(prefix, bucket):
+    s3 = boto3.client("s3")
+    response = s3.list_objects_v2(Bucket=bucket, Prefix=prefix)
+
+    files = [
+        obj["Key"]
+        for obj in response.get("Contents", [])
+        if obj["Key"].endswith(".csv")
+    ]
+
+    latest = max(files, key=lambda f: f.split("/")[-1])
+    return f"s3://{bucket}/{latest}"
 
 def main():
-    input_dir = "/opt/ml/input/data/training"
     output_dir = "/opt/ml/model"
 
-    # Find CSV file
-    files = [f for f in os.listdir(input_dir) if f.endswith(".csv")]
-    if not files:
-        raise RuntimeError("No training CSV found in /opt/ml/input/data/training")
+    # Read bucket + prefix from environment variables passed by SageMaker
+    bucket = os.environ["DATA_BUCKET_NAME"]
+    prefix = os.environ["TRAINING_DATA_PREFIX"]
 
-    csv_path = os.path.join(input_dir, files[0])
-    df = pd.read_csv(csv_path)
+    # Find the latest CSV under the prefix
+    latest_file_s3_uri = get_latest_file(bucket, prefix)
+
+    # Load the CSV directly from S3
+    df = pd.read_csv(latest_file_s3_uri)
 
     # Assume 2 columns: feature, target
     X = df.iloc[:, [0]].values
