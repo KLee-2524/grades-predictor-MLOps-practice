@@ -20,6 +20,7 @@ def get_latest_file(prefix, bucket):
     latest = max(files, key=lambda f: f.split("/")[-1])
     return f"s3://{bucket}/{latest}"
 
+
 def main():
     output_dir = "/opt/ml/model"
 
