@@ -77,3 +77,9 @@ variable "endpoint_logs_prefix" {
   type        = string
   default     = "endpoint-logs/"
 }
+
+variable "endpoint_name" {
+  description = "name of sagemaker endpoint"
+  type        = string
+  default     = "student-grades-sm-endpoint"
+}

@@ -9,6 +9,7 @@ inference_inputs_prefix    = "inputs/"
 predictions_prefix         = "outputs/"
 artifacts_prefix           = "artifacts/"
 endpoint_logs_prefix       = "endpoint-logs/"
+endpoint_name              = "kel-dev-student-grades-sm-endpoint"
 
 training_instance_type     = "ml.t3.medium"
 endpoint_instance_type     = "ml.t3.medium"

@@ -30,12 +30,8 @@ resource "aws_iam_role_policy" "sagemaker_execution_policy" {
           "s3:ListBucket"
         ]
         Resource = [
-          aws_s3_bucket.raw_data.arn,
-          "${aws_s3_bucket.raw_data.arn}/*",
-          aws_s3_bucket.processed_data.arn,
-          "${aws_s3_bucket.processed_data.arn}/*",
-          aws_s3_bucket.models.arn,
-          "${aws_s3_bucket.models.arn}/*"
+          "arn:aws:s3:::${var.data_bucket_name}",
+          "arn:aws:s3:::${var.data_bucket_name}/*"
         ]
       },
       {

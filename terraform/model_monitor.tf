@@ -25,7 +25,7 @@ resource "aws_sagemaker_monitoring_schedule" "data_quality" {
         monitoring_outputs {
           s3_output {
             local_path = "/opt/ml/processing/output"
-            s3_uri     = "s3://${aws_s3_bucket.pipeline_logs.bucket}/monitoring/"
+            s3_uri     = "s3://${var.data_bucket_name}/${var.s3_date_directories_prefix}${var.endpoint_logs_prefix}"
           }
         }
       }
