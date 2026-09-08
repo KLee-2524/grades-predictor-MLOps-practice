@@ -10,7 +10,6 @@ predictions_prefix         = "outputs/"
 artifacts_prefix           = "artifacts/"
 endpoint_logs_prefix       = "endpoint-logs/"
 endpoint_name              = "kel-dev-student-grades-sm-endpoint"
-
 training_instance_type     = "ml.t3.medium"
 endpoint_instance_type     = "ml.t3.medium"
 # https://docs.aws.amazon.com/sagemaker/latest/dg/notebooks-available-instance-types.html
