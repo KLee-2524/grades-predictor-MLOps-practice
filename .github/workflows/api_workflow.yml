@@ -1,0 +1,27 @@
+name: Run terraform via GitHub API by manual trigger in the GUI
+
+on: 
+    workflow_dispatch:
+        inputs:
+            command:
+                description: Either plan or apply
+                required: true
+                type: string
+            environment:
+                description: Environment to run terraform against
+                required: true
+                type: string
+
+jobs:
+    run_terraform:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Run terraform
+              uses: ./.github/actions/run_terraform
+              with:
+                command: ${{ inputs.command }}
+                environment: ${{ inputs.environment }}
+                tfc_token: ${{ secrets.TFC_TOKEN }}
