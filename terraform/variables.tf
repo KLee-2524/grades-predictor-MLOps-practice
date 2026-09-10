@@ -1,6 +1,7 @@
 variable "environment" {
   description = "Deployment environment (dev, prd, etc.)"
   type        = string
+  default     = "dev"
 }
 
 variable "aws_region" {
@@ -18,6 +19,7 @@ variable "monitor_image_account_id" {
 variable "resource_name_prefix" {
   description = "Prefix for all resources, e.g. kel-{env}"
   type        = string
+  default     = "kel-dev"
 }
 
 variable "training_image_tag" {
@@ -30,22 +32,26 @@ variable "training_image_tag" {
 variable "training_instance_type" {
   description = "Instance type for SageMaker training jobs"
   type        = string
+  default     = "ml.t3.medium"
 }
 
 variable "endpoint_instance_type" {
   description = "Instance type for SageMaker endpoint"
   type        = string
+  default     = "ml.t2.medium"
 }
 
 # NEW BUDGET AI DLC VARIABLES
 variable "data_bucket_name" {
   description = "S3 bucket for inputs, outputs, training data, and artifacts"
   type        = string
+  default     = "students-grades"
 }
 
 variable "s3_date_directories_prefix" {
   description = "Date prefix for S3 directories, e.g. 2026/09/05/"
   type        = string
+  default     = "2026/09/09/"
 }
 
 variable "training_data_prefix" {
