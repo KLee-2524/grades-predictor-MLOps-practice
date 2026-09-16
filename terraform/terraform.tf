@@ -5,7 +5,7 @@ terraform {
     organization = "kel-aws-org"
 
     workspaces {
-      name = "grades-predictor-MLOps-practice-#{tf-env}#"
+      name = "grades-predictor-MLOps-practice"
     }
   }
 
