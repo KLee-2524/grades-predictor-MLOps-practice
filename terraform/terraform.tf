@@ -2,14 +2,14 @@ terraform {
 
   backend "remote" {
     hostname     = "app.terraform.io"
-    organization = "kel-aws-org"
+    organization = "kel-aws-org-2"
 
     workspaces {
       name = "grades-predictor-MLOps-practice"
     }
   }
 
-  required_version = ">= 1.2"
+  required_version = "1.16.4"
 
   required_providers {
     aws = {
