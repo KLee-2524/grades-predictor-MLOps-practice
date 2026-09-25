@@ -31,6 +31,11 @@ runs:
         terraform_version: 1.4.6
         cli_config_credentials_hostname: 'app.terraform.io'
         cli_config_credentials_token: ${{ inputs.tfc_token }}
+
+    - name: Export Terraform Cloud token
+      shell: bash
+      run: |
+        export TF_TOKEN_app_terraform_io="${{ inputs.tfc_token }}"
     
     - name: Terraform init
       shell: bash
