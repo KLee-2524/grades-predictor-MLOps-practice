@@ -34,7 +34,7 @@ jobs:
               with:
                 command: apply
                 environment: dev
-                tfc_token: $${{ secrets.TFC_TOKEN }}
+                tfc_token: ${{ secrets.TFC_TOKEN }}
 
     # prd:
     #     runs-on: ubuntu-latest
@@ -48,4 +48,4 @@ jobs:
     #           with:
     #             command: apply
     #             environment: prd
-    #             tfc_token: $${{ secrets.TFC_TOKEN }}
+    #             tfc_token: ${{ secrets.TFC_TOKEN }}
