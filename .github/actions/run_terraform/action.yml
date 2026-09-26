@@ -35,15 +35,11 @@ runs:
     - name: Terraform init
       shell: bash
       working-directory: ${{ inputs.working_directory }}
-      env:
-        TF_TOKEN_app_terraform_io: ${{ inputs.tfc_token }}
       run: terraform init
 
     - name: Run terraform
       shell: bash
       working-directory: ${{ inputs.working_directory }}
-      env:
-        TF_TOKEN_app_terraform_io: ${{ inputs.tfc_token }}
       run: |
         if [[ ${{ inputs.command }} == "apply" ]]; then
           terraform apply -auto-approve
